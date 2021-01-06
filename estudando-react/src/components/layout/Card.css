@@ -26,6 +26,11 @@
   margin-left: 15px;
 }
 
+.card .titulo > a {
+  color: black;
+  text-decoration: none;
+}
+
 .card .subtitulo {
   font-size: 14px;
   color: #a3a3a3;

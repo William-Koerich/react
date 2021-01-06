@@ -7,7 +7,10 @@ const Card = props => (
     <div className="icone" style={{ backgroundColor: props.cor }}>
       {props.icon}
     </div>
-    <div className="titulo">{props.titulo || 'Título'}</div>
+
+    <div className="titulo">
+      <a href="#">{props.titulo || 'Título'}</a>
+    </div>
 
     <div className="subtitulo">{props.subtitulo || 'Subtitulo'}</div>
 
