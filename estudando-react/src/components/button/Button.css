@@ -1,0 +1,7 @@
+.button {
+  width: 66px;
+  height: 33px;
+  border: none;
+  overflow: hidden;
+  border-radius: 5px !important;
+}

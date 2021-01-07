@@ -1,0 +1,31 @@
+.modal {
+  color: #000;
+  height: 565px;
+  width: 1293px;
+  margin: 5px 5px;
+  overflow: hidden;
+  border-radius: 10px;
+  flex-direction: column;
+  background-color: #fff;
+}
+
+.modal .header {
+  height: 61px;
+  display: flex;
+  justify-content: horizontal;
+  align-items: center;
+  margin-left: 15px;
+}
+
+.modal .content {
+  height: 442px;
+  border-top: #c3c3c3 1px solid;
+  border-bottom: #c3c3c3 1px solid;
+}
+
+.modal .footer {
+  display: flex;
+  justify-content: horizontal;
+  align-items: center;
+  margin: 15px 15px;
+}
