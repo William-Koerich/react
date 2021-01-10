@@ -20,10 +20,10 @@
 .modal .content {
   height: 442px;
   border-top: #c3c3c3 1px solid;
+  border-bottom: #c3c3c3 1px solid;
 }
 
 .modal .footer {
-  border-top: #c3c3c3 1px solid;
   display: flex;
   justify-content: horizontal;
   align-items: center;

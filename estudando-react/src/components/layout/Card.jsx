@@ -3,24 +3,32 @@ import PropTypes from 'prop-types'
 import './Card.css'
 import Modal from '../modal/Modal'
 
-const Card = props => {
+const Card = ({
+  cor,
+  children,
+  icon,
+  titulo,
+  subtitulo,
+  descricao,
+  ...props
+}) => {
   const [Display, setDisplay] = useState('none')
   return (
     <>
       <Modal
         display={Display}
         setdisplay={() => setDisplay('none')}
-        conteudo={props.children}
+        conteudo={children}
       />
       <div className="card">
-        <div className="icone" style={{ backgroundColor: props.cor }}>
-          {props.icon}
+        <div className="icone" style={{ backgroundColor: cor }}>
+          {icon}
         </div>
         <div className="titulo">
-          <a onClick={() => setDisplay('block')}>{props.titulo || 'Título'}</a>
+          <a onClick={() => setDisplay('block')}>{titulo}</a>
         </div>
-        <div className="subtitulo">{props.subtitulo || 'Subtitulo'}</div>
-        <div className="descricao">{props.descricao || 'Descrição'}</div>
+        <div className="subtitulo">{subtitulo}</div>
+        <div className="descricao">{descricao}</div>
         <div className="hr"></div>
         <div className="mais-informacoes">+ Informações</div>
       </div>
@@ -28,6 +36,13 @@ const Card = props => {
   )
 }
 export default Card
+
+Card.defaultProps = {
+  cor: '#fff',
+  titulo: 'Titulo',
+  subtitulo: 'Subtitulo',
+  descricao: 'Descricao'
+}
 
 Card.propTypes = {
   cor: PropTypes.string,
