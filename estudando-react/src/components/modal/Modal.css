@@ -1,9 +1,12 @@
 .modal {
+  left: 25%;
+  right: 25%;
   color: #000;
   height: 565px;
   width: 1293px;
   margin: 5px 5px;
   overflow: hidden;
+  position: absolute;
   border-radius: 10px;
   flex-direction: column;
   background-color: #fff;
