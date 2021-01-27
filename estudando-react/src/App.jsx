@@ -1,9 +1,17 @@
-import React from 'react'
+import { React, useEffect, useState } from 'react'
+import axios from 'axios'
 import Card from '../src/components/layout/Card'
-import Modal from '../src/components/modal/Modal'
 import './App.css'
 
-export default props => {
+const App = props => {
+  const [products, setProducts] = useState('')
+  console.log({ products, setProducts })
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3004/products')
+      .then(res => setProducts(res.data))
+  }, [])
   return (
     <div className="App">
       <Card
@@ -79,3 +87,5 @@ export default props => {
     </div>
   )
 }
+
+export default App
