@@ -26,6 +26,6 @@ Modal.defaultProps = {
 
 Modal.propTypes = {
   titulo: PropTypes.string,
-  conteudo: PropTypes.string,
+  conteudo: PropTypes.node,
   display: PropTypes.string
 }
