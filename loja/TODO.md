@@ -1,12 +1,12 @@
-TODO:
-  ☐ Listar os produtos
-  ☐ Filtar por descrição
-  ☐ Adicionar no carrinho
-  ☐ Aplicar o desconto
-  ☐ Finalizar o pedido
+# TODO:
+  [x] Listar os produtos
+  [] Filtar por descrição
+  [] Adicionar no carrinho
+  [] Aplicar o desconto
+  [] Finalizar o pedido
     O pedido deve ser salvo no banco
 
-DB:
+# DB:
 {
   "products": [
     {
