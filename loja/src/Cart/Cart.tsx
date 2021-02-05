@@ -1,7 +1,8 @@
 import React from 'react'
+import { Product } from '../types/product'
 
 export interface Props {
-  products: Array<any>
+  products: Array<Product>
   onRemove: (index: number) => void
 }
 

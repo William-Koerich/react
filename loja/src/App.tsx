@@ -9,12 +9,17 @@ const App = () => {
   /**
    * Used to list products.
    */
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState<Product[]>([])
+
+  /**
+   * Products to filter.
+   */
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products)
 
   /**
    * Used to add products to cart.
    */
-  const [productsAdded, setProductsAdded] = useState([])
+  const [productsAdded, setProductsAdded] = useState<Product[]>([])
 
   /**
    * Conection for DB.
@@ -22,13 +27,17 @@ const App = () => {
   useEffect(() => {
     axios
       .get('http://localhost:3004/products')
-      .then(res => setProducts(res.data))
+      .then(res => {
+        setProducts(res.data)
+        return res.data
+      })
+      .then(setFilteredProducts)
   }, [])
 
   /**
    * Function used for added products
    */
-  function addItemInCart(product: never) {
+  function addItemInCart(product: Product) {
     const productsAddedInTheCart = [...productsAdded, product]
     setProductsAdded(productsAddedInTheCart)
   }
@@ -43,20 +52,46 @@ const App = () => {
     )
   }
 
+  /**
+   * Remove itens in cart.
+   */
   const removeItemInCart = (idx: number) => {
     setProductsAdded([...productsAdded].filter((_, index) => index !== idx))
   }
 
+  /**
+   * Filter function.
+   */
+  const filterFunction = (digited: string) => {
+    return products.filter(
+      word => word.name.toLowerCase().indexOf(digited.toLowerCase()) > -1
+    )
+  }
+
+  /**
+   * Filter products.
+   */
+  const filterProducts = (filter: string) => {
+    setFilteredProducts(filterFunction(filter))
+  }
+
+  const finalizeOrder = () => {
+    console.log(productsAdded)
+  }
+
   return (
     <div className="App">
-      <Store products={products} addItemInCart={addItemInCart} />
+      <Store
+        products={filteredProducts}
+        addItemInCart={addItemInCart}
+        filterProducts={filterProducts}
+      />
       <Cart products={productsAdded} onRemove={removeItemInCart} />
 
       <h3>Total</h3>
-
       <h4>R$ {calculateTotal(productsAdded)}</h4>
 
-      <button>Finalizar</button>
+      <button onClick={finalizeOrder}>Finalizar</button>
     </div>
   )
 }
