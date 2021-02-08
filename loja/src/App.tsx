@@ -28,6 +28,7 @@ const App = () => {
     axios
       .get('http://localhost:3004/products')
       .then(res => {
+        console.log('aquio ', res)
         setProducts(res.data)
         return res.data
       })
