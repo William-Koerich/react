@@ -28,12 +28,22 @@ const App = () => {
     axios
       .get('http://localhost:3004/products')
       .then(res => {
-        console.log('aquio ', res)
         setProducts(res.data)
         return res.data
       })
       .then(setFilteredProducts)
   }, [])
+
+  function post() {
+    const order = {
+      totalValue: calculateTotal(productsAdded),
+      discountTotal: 0
+    }
+
+    axios
+      .post('http://localhost:3004/orders', order)
+      .then(res => console.log(res))
+  }
 
   /**
    * Function used for added products
@@ -77,7 +87,12 @@ const App = () => {
   }
 
   const finalizeOrder = () => {
-    console.log(productsAdded)
+    setProductsAdded([])
+    saveOrder()
+  }
+
+  const saveOrder = () => {
+    post()
   }
 
   return (
