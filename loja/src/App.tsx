@@ -1,5 +1,5 @@
 import './App.css'
-import React, { useState, useEffect, KeyboardEvent } from 'react'
+import React, { useState, useEffect, ChangeEvent } from 'react'
 import axios from 'axios'
 import Cart from './Cart/Cart'
 import Store from './Store/Store'
@@ -24,12 +24,12 @@ const App = () => {
   /**
    * Total.
    */
-  const [totalValue, setTotalValue] = useState<Number>(0)
+  const [totalValue, setTotalValue] = useState<number>(0)
 
   /**
    * Discount percentage.
    */
-  const [discount, setDiscount] = useState<Number>(0)
+  const [discount, setDiscount] = useState<number>(0)
 
   /**
    * Conection for DB.
@@ -45,9 +45,11 @@ const App = () => {
   }, [])
 
   function post() {
+    const productsId = productsAdded.map(product => product.id)
     const order = {
       totalValue: totalValue,
-      discountTotal: discount
+      discountTotal: discount,
+      products: productsId
     }
 
     axios
@@ -115,8 +117,8 @@ const App = () => {
     setTotalValue(total)
   }
 
-  const setDiscountValue = (event: KeyboardEvent<HTMLInputElement>) => {
-    setDiscount(+event.currentTarget.value)
+  const setDiscountValue = (event: ChangeEvent<HTMLInputElement>) => {
+    setDiscount(+event.target.value)
   }
 
   return (
@@ -129,7 +131,11 @@ const App = () => {
       <Cart products={productsAdded} onRemove={removeItemInCart} />
       <br />
       <label>Desconto: </label>
-      <input type="text" onKeyUp={setDiscountValue.bind(this)} />
+      <input
+        type="text"
+        value={discount}
+        onChange={setDiscountValue.bind(this)}
+      />
       <button onClick={applyDiscount}>Aplicar</button>
 
       <h3>Total</h3>
