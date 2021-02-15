@@ -1,6 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from 'react'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
-import axios from 'axios'
 
 import './App.css'
 import 'react-tabs/style/react-tabs.css'
@@ -9,6 +8,8 @@ import Cart from './Cart/Cart'
 import Store from './Store/Store'
 import Products from './Products/Products'
 import { Product } from './types/product'
+import AddProduct from './AddProduct/AddProduct'
+import api from './utils/api'
 
 const App = () => {
   /**
@@ -45,8 +46,8 @@ const App = () => {
    * Conection for DB.
    */
   useEffect(() => {
-    axios
-      .get('http://localhost:3004/products')
+    api
+      .get('/products')
       .then(res => {
         setProducts(res.data)
         return res.data
@@ -55,11 +56,15 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    axios.get('http://localhost:3004/orders').then(res => {
+    getOrders()
+  }, [])
+
+  const getOrders = () => {
+    return api.get('/orders').then(res => {
       setOrders(res.data)
       return res.data
     })
-  }, [])
+  }
 
   function post() {
     const productsId = productsAdded.map(product => product.id)
@@ -69,9 +74,7 @@ const App = () => {
       products: productsId
     }
 
-    axios
-      .post('http://localhost:3004/orders', order)
-      .then(res => console.log(res))
+    return api.post('/orders', order).then(res => console.log(res))
   }
 
   /**
@@ -122,10 +125,16 @@ const App = () => {
   }
 
   const finalizeOrder = () => {
-    post()
-    setProductsAdded([])
-    setTotalValue(0)
-    setDiscount(0)
+    post().then(() => {
+      setProductsAdded([])
+      setTotalValue(0)
+      setDiscount(0)
+      getOrders()
+    })
+  }
+
+  const addProduct = (product: Product) => {
+    console.log('oi sou o add product', product)
   }
 
   const applyDiscount = () => {
@@ -140,7 +149,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <Tabs>
+      <Tabs className="tab-header">
         <TabList>
           <Tab>Loja</Tab>
           <Tab>Pedidos</Tab>
@@ -159,11 +168,7 @@ const App = () => {
           <Cart products={productsAdded} onRemove={removeItemInCart} />
           <br />
           <label>Desconto: </label>
-          <input
-            type="text"
-            value={discount}
-            onChange={setDiscountValue.bind(this)}
-          />
+          <input type="text" value={discount} onChange={setDiscountValue} />
           <button onClick={applyDiscount}>Aplicar</button>
 
           <h3>Total</h3>
@@ -182,8 +187,7 @@ const App = () => {
                 Número pedido: {order.id} <br />
                 Valor Total: R${order.totalValue.toFixed(2)} <br />
                 Disconto aplicado: {order.discountTotal}% <br />
-                Código dos produtos:{' '}
-                {order.products.map((r: number) => `${r}, `)} <br />
+                Código dos produtos: {order.products.join(', ')} <br />
                 <hr />
               </li>
             ))}
@@ -195,6 +199,7 @@ const App = () => {
          */}
         <TabPanel>
           <Products products={products}></Products>
+          <AddProduct addProduct={addProduct}></AddProduct>
         </TabPanel>
       </Tabs>
     </div>

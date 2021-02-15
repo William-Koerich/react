@@ -16,8 +16,6 @@ const Products: React.FC<Props> = ({ products }) => {
           </li>
         ))}
       </ul>
-
-      <div></div>
     </>
   )
 }
