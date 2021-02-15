@@ -1,8 +1,13 @@
-import './App.css'
 import React, { useState, useEffect, ChangeEvent } from 'react'
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import axios from 'axios'
+
+import './App.css'
+import 'react-tabs/style/react-tabs.css'
+
 import Cart from './Cart/Cart'
 import Store from './Store/Store'
+import Products from './Products/Products'
 import { Product } from './types/product'
 
 const App = () => {
@@ -32,6 +37,11 @@ const App = () => {
   const [discount, setDiscount] = useState<number>(0)
 
   /**
+   * Used for list orders.
+   */
+  const [orders, setOrders] = useState([])
+
+  /**
    * Conection for DB.
    */
   useEffect(() => {
@@ -42,6 +52,13 @@ const App = () => {
         return res.data
       })
       .then(setFilteredProducts)
+  }, [])
+
+  useEffect(() => {
+    axios.get('http://localhost:3004/orders').then(res => {
+      setOrders(res.data)
+      return res.data
+    })
   }, [])
 
   function post() {
@@ -123,25 +140,63 @@ const App = () => {
 
   return (
     <div className="App">
-      <Store
-        products={filteredProducts}
-        addItemInCart={addItemInCart}
-        filterProducts={filterProducts}
-      />
-      <Cart products={productsAdded} onRemove={removeItemInCart} />
-      <br />
-      <label>Desconto: </label>
-      <input
-        type="text"
-        value={discount}
-        onChange={setDiscountValue.bind(this)}
-      />
-      <button onClick={applyDiscount}>Aplicar</button>
+      <Tabs>
+        <TabList>
+          <Tab>Loja</Tab>
+          <Tab>Pedidos</Tab>
+          <Tab>Produtos</Tab>
+        </TabList>
 
-      <h3>Total</h3>
-      <h4>R$ {totalValue}</h4>
+        {/**
+         * Loja.
+         */}
+        <TabPanel>
+          <Store
+            products={filteredProducts}
+            addItemInCart={addItemInCart}
+            filterProducts={filterProducts}
+          />
+          <Cart products={productsAdded} onRemove={removeItemInCart} />
+          <br />
+          <label>Desconto: </label>
+          <input
+            type="text"
+            value={discount}
+            onChange={setDiscountValue.bind(this)}
+          />
+          <button onClick={applyDiscount}>Aplicar</button>
 
-      <button onClick={finalizeOrder}>Finalizar</button>
+          <h3>Total</h3>
+          <h4>R$ {totalValue}</h4>
+
+          <button onClick={finalizeOrder}>Finalizar</button>
+        </TabPanel>
+
+        {/**
+         * Pedidos.
+         */}
+        <TabPanel>
+          <ul style={{ listStyle: 'none' }}>
+            {orders.map((order: any, index: number) => (
+              <li key={index}>
+                Número pedido: {order.id} <br />
+                Valor Total: R${order.totalValue.toFixed(2)} <br />
+                Disconto aplicado: {order.discountTotal}% <br />
+                Código dos produtos:{' '}
+                {order.products.map((r: number) => `${r}, `)} <br />
+                <hr />
+              </li>
+            ))}
+          </ul>
+        </TabPanel>
+
+        {/**
+         * Produtos.
+         */}
+        <TabPanel>
+          <Products products={products}></Products>
+        </TabPanel>
+      </Tabs>
     </div>
   )
 }
