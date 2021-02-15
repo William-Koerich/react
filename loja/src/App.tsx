@@ -4,12 +4,12 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import './App.css'
 import 'react-tabs/style/react-tabs.css'
 
-import Cart from './Cart/Cart'
-import Store from './Store/Store'
-import Products from './Products/Products'
-import { Product } from './types/product'
-import AddProduct from './AddProduct/AddProduct'
 import api from './utils/api'
+import { Product } from './types/product'
+import Store from './components/Store/Store'
+import Cart from './components/Cart/Cart'
+import Products from './components/Products/Products'
+import AddProduct from './components/AddProduct/AddProduct'
 
 const App = () => {
   /**
@@ -134,7 +134,8 @@ const App = () => {
   }
 
   const addProduct = (product: Product) => {
-    console.log('oi sou o add product', product)
+    api.post('/products', product).then(res => console.log(res))
+    setProducts([...products, product])
   }
 
   const applyDiscount = () => {

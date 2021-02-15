@@ -1,5 +1,5 @@
 import React from 'react'
-import { Product } from '../types/product'
+import { Product } from '../../types/product'
 
 export interface Props {
   products: Array<Product>
