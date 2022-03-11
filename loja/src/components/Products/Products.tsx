@@ -12,7 +12,7 @@ const Products: React.FC<Props> = ({ products }) => {
       <ul style={{ listStyle: 'none' }}>
         {products.map((order: any, index: number) => (
           <li key={index}>
-            {order.name} - Valor R${order.price.toFixed(2)}
+            {order.name} | Valor: R${order.price.toFixed(2)} | Quantidade: {order.quantity}
           </li>
         ))}
       </ul>

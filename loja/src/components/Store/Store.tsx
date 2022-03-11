@@ -1,6 +1,5 @@
 import React, { KeyboardEvent } from 'react'
 import { Product } from '../../types/product'
-
 export interface Props {
   products: Array<Product>
   addItemInCart: Function

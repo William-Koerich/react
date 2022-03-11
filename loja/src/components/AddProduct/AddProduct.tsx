@@ -11,13 +11,15 @@ const AddProduct: React.FC<Props> = ({ addProduct }) => {
    */
   const [name, setName] = useState('')
   const [price, setPrice] = useState(0)
+  const [quantity, setQuantity] = useState(0)
 
   const verifyAndRegister = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const product = { name, price }
+    const product = { name, price, quantity }
     addProduct(product)
     setName('')
     setPrice(0)
+    setQuantity(0)
   }
 
   return (
@@ -43,6 +45,17 @@ const AddProduct: React.FC<Props> = ({ addProduct }) => {
         onChange={event => setPrice(+event.target.value)}
         required
       ></input>
+      <br />
+      <br />
+      <label>Quantidade: </label>
+      <input 
+        id="quantidade" 
+        value={quantity}
+        type="number"
+        name="quantidade"
+        onChange={event => setQuantity(+event.target.value)}
+        required
+      />
       <br />
       <br />
       <button type="submit">Cadastrar</button>
