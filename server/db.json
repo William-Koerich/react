@@ -1,21 +1,11 @@
 {
   "products": [
-    {
-      "id": 1,
-      "name": "Calça",
-      "price": 10.0
-    },
-
-    {
-      "id": 2,
-      "name": "Camisa",
-      "price": 20.0
-    },
-
-    {
-      "id": 3,
-      "name": "Bermuda",
-      "price": 70.0
-    }
+    
+  ],
+  "orders": [
+    
+  ],
+  "customer": [
+   
   ]
 }
